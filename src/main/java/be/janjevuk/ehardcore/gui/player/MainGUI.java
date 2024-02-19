@@ -1,21 +1,34 @@
 package be.janjevuk.ehardcore.gui.player;
 
 import be.janjevuk.ehardcore.gui.builder.GuiBuilder;
-import net.kyori.adventure.text.Component;
+import be.janjevuk.ehardcore.gui.builder.ItemBuilder;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.meta.SkullMeta;
+
+import java.util.Objects;
 
 public class MainGUI implements Listener {
 
-    private static final String invName = "PROFIL : ";
+    private static final String title = "§8Interface";
 
     // Initiate the GUI for the player
     public static void open(Player player) {
-        GuiBuilder inv = new GuiBuilder(player, 5, invName);
+        GuiBuilder inv = new GuiBuilder(player, 5, title);
 
+        ItemBuilder profil = new ItemBuilder(Material.PLAYER_HEAD, 1, "§7Profil §8: §c" + player.getName());
+        SkullMeta meta = (SkullMeta) profil.build().getItemMeta();
+        meta.setOwningPlayer(player);
+        profil.build().setItemMeta(meta);
+
+        //set item in gui
+
+        inv.addItem(profil, 2,2);
 
         // Open the inventory for the player
         player.openInventory(inv.build());
@@ -25,14 +38,20 @@ public class MainGUI implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
 
-        //check if target inventory is gui profil
-        if(!event.getView().title().equals(Component.text(invName))){
-            return;
-        }
+        if(!GuiBuilder.secureInteraction(event, title)) return;
 
         event.setCancelled(true);
 
+        Player player = (Player) event.getWhoClicked();
 
+        switch (event.getCurrentItem().getType()) {
+            case SPRUCE_DOOR:
+                player.closeInventory();
+                GuiBuilder.playSound(Sound.BLOCK_CHEST_CLOSE, player);
+                break;
+            default:
+                break;
+        }
 
     }
 
