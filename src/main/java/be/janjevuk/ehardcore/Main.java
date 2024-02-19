@@ -13,14 +13,13 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        new Commands(this);
-        new Events(this);
 
         instance = this;
 
         saveDefaultConfig();
 
-
+        new Commands(this);
+        new Events(this);
 
         Bukkit.getLogger().info("Plugin has been enabled");
     }
