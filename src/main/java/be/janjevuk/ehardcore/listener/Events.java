@@ -26,6 +26,8 @@ public class Events {
     */
     public Events(Main main) {
         this.pm = main.getServer().getPluginManager();
+
+        eventsGui(main);
     }
 
     /**
