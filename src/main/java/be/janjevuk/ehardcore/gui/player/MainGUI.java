@@ -2,6 +2,7 @@ package be.janjevuk.ehardcore.gui.player;
 
 import be.janjevuk.ehardcore.gui.builder.GuiBuilder;
 import be.janjevuk.ehardcore.gui.builder.ItemBuilder;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -22,11 +23,20 @@ public class MainGUI implements Listener {
         GuiBuilder inv = new GuiBuilder(player, 5, title);
 
         ItemBuilder profil = new ItemBuilder(Material.PLAYER_HEAD, 1, "§7Profil §8: §c" + player.getName());
+        profil.addLore(Component.text(" "));
+        profil.addLore(Component.text("§c-------------"));
+        profil.addLore(Component.text("§7Grade : "));
+        profil.addLore(Component.text("§7Bourse : "));
+        profil.addLore(Component.text("§7Guilde : "));
+        profil.addLore(Component.text("§c-------------"));
+        profil.addLore(Component.text(" "));
+
+
         SkullMeta meta = (SkullMeta) profil.build().getItemMeta();
         meta.setOwningPlayer(player);
         profil.build().setItemMeta(meta);
 
-        //set item in gui
+
 
         inv.addItem(profil, 2,2);
 
